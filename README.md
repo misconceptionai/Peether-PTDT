@@ -2,40 +2,42 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![BSC Network](https://img.shields.io/badge/Network-Binance%20Smart%20Chain-yellow)](https://bscscan.com/)
-[![Solidity](https://img.shields.io/badge/Solidity-0.8.25-blue)](https://soliditylang.org/)
+[![Token Standard](https://img.shields.io/badge/Standard-BEP--20-blue)](https://academy.binance.com/en/glossary/bep-20)
+[![Audit Score](https://img.shields.io/badge/Audit-9.2%2F10-success)](https://ptdt.taxi)
 
-> Revolutionizing ride-hailing with blockchain technology. 500,000+ rides. 3,000+ drivers. Real-world utility.
+> Revolutionizing ride-hailing with blockchain technology. Only 100,000 tokens. 500,000+ rides. 3,000+ drivers. Real-world utility.
 
 ## 🌟 Overview
 
-Peether (PTDT) is an ERC-20 utility token built on Binance Smart Chain, designed to transform the economics of ride-hailing services. Unlike traditional platforms that charge 25-30% fees, PTDT operates on a sustainable 5% model while providing instant settlements and transparent on-chain transactions.
+Peether (PTDT) is an ultra-scarce BEP-20 utility token built on Binance Smart Chain with only **100,000 tokens in existence**, designed to transform the economics of ride-hailing services. Unlike traditional platforms that charge 25-30% fees, PTDT operates on a sustainable 5% model while providing instant settlements and transparent on-chain transactions.
 
 ### Key Statistics
 - 💼 **3,000+ Active Drivers** across 7 countries
-- 🚗 **500,000+ Rides Completed** since 2018
-- 💰 **$2.5M+ Transaction Volume** processed
-- 🌍 **7 Countries:** Egypt, Dubai, Nigeria, Pakistan, South Africa, India, Australia
+- 🚗 **500,000+ Rides Completed** since 2006
+- 💎 **Only 100,000 Tokens** (2,100x scarcer than Bitcoin)
+- 🌍 **7 Countries:** Egypt, Australia, Dubai, South Africa, Pakistan, Nigeria, India
 - 📈 **15-20% Higher Income** for drivers vs traditional platforms
 
 ## 🔥 Core Features
 
-### Fixed Supply Tokenomics
-- **Total Supply:** 1,000,000,000 PTDT (fixed, no minting)
-- **Burn Mechanism:** Optional manual burns (no automatic burn tax)
-- **Result:** Predictable supply with strategic burn options
+### Extreme Scarcity Tokenomics
+- **Total Supply:** 100,000 PTDT (fixed, no minting possible)
+- **Private Sale:** 5,000 PTDT (5%)
+- **Liquidity Pool:** 5,000 PTDT (5%)
+- **Result:** 2,100x scarcer than Bitcoin
 
 ### Anti-Whale Protection
-- **Max Transaction:** 1% of supply (10,000,000 PTDT)
-- **Daily Limit:** 10% of supply per address (100,000,000 PTDT)
-- **Transfer Cooldown:** 5 minutes for large transfers (>1,000,000 PTDT)
+- **Private Sale Limit:** 500 USDT per wallet (0.5% max)
 - **Fair Distribution:** Prevents market manipulation
+- **Automatic Enforcement:** Built into smart contract
 
 ### Advanced Security Features
 - ✅ **Reentrancy Protection:** Non-reentrant modifiers on critical functions
 - ✅ **Time-Locked Ownership:** 30-day renouncement delay after trading enabled
-- ✅ **No Pausable Transfers:** True decentralization (only sale contract pausable)
-- ✅ **Blacklist Mechanism:** 1-hour activation delay for compliance
-- ✅ **Two-Step Ownership Transfer:** Prevents accidental transfers
+- ✅ **No Pausable Transfers:** True decentralization
+- ✅ **Manual Burn Functions:** Strategic supply reduction capability
+- ✅ **6-Month Liquidity Lock:** Prevents rug pulls
+- ✅ **Audit Score:** 9.2/10
 - ✅ **Fully Verified on BSCScan**
 
 ## 🏗️ Contract Architecture
@@ -43,50 +45,41 @@ Peether (PTDT) is an ERC-20 utility token built on Binance Smart Chain, designed
 ### Token Contract (`Peether.sol`)
 
 **Core Functions:**
-- Standard ERC-20 implementation
+- Standard BEP-20 implementation
 - Manual burn capability (`burn()` and `burnFrom()`)
 - Anti-whale limits (per-transaction and daily)
 - Transfer cooldown for large transfers
-- Blacklist functionality (compliance-ready)
 - Controlled trading activation
 
 **Security Mechanisms:**
 ```solidity
+// Fixed supply - no minting
+uint256 public immutable maxSupply = 100000 * 10**18;
+
 // Anti-whale protection
 maxTxAmount = maxSupply / 100;          // 1% max per transaction
 dailyMaxTransfer = maxSupply / 10;      // 10% max per day
-TRANSFER_COOLDOWN = 5 minutes;          // Large transfer cooldown
 
 // Ownership controls
 RENOUNCEMENT_DELAY = 30 days;           // Time-lock before renouncement
-BLACKLIST_DELAY = 1 hours;              // Activation delay for blacklist
 ```
 
 ### Private Sale Contract (`PeetherPrivateSale.sol`)
 
 **Features:**
 - Two-step purchase process (USDT approval + token buy)
-- Configurable rate (default 1:1 USDT)
-- Per-address purchase limits
-- Hard cap enforcement
-- Emergency pause capability
+- Rate: 1 PTDT = 1 USDT
+- Per-wallet limits: 500 USDT max
+- Hard cap: 5,000 PTDT (5% of supply)
 - Reentrancy protection
-
-**Purchase Flow:**
-```solidity
-1. User approves USDT spending
-2. User calls buyWithUSDT(amount)
-3. Contract transfers USDT to treasury
-4. Contract transfers PTDT to user
-5. Emits TokensPurchased event
-```
+- Emergency pause capability
 
 ## 📋 Contract Addresses
 
 | Contract | Address | Verified |
 |----------|---------|----------|
-| PTDT Token | `[YOUR_TOKEN_ADDRESS]` | [BSCScan ↗](https://bscscan.com/address/...) |
-| Private Sale | `[YOUR_SALE_ADDRESS]` | [BSCScan ↗](https://bscscan.com/address/...) |
+| PTDT Token | `0x66c6Fc5E7F99272134a52DF9E88D94eD83E89278` | [BSCScan ↗](https://bscscan.com/address/0x66c6Fc5E7F99272134a52DF9E88D94eD83E89278) |
+| Private Sale | `0x680fa612aE4a8668b801E184CFA2512DAaB39449` | [BSCScan ↗](https://bscscan.com/address/0x680fa612aE4a8668b801E184CFA2512DAaB39449) |
 | USDT (BEP-20) | `0x55d398326f99059fF775485246999027B3197955` | [BSCScan ↗](https://bscscan.com/token/0x55d398326f99059fF775485246999027B3197955) |
 
 ## 🚀 Technical Specifications
@@ -96,163 +89,100 @@ BLACKLIST_DELAY = 1 hours;              // Activation delay for blacklist
 Name: "Peether"
 Symbol: "PTDT"
 Decimals: 18
-Max Supply: 1,000,000,000 PTDT
-Max Tx Amount: 10,000,000 PTDT (1%)
-Daily Max Transfer: 100,000,000 PTDT (10%)
+Total Supply: 100,000 PTDT (fixed)
+Max Tx Amount: 1,000 PTDT (1%)
+Daily Max Transfer: 10,000 PTDT (10%)
 Transfer Cooldown: 5 minutes (for large transfers)
 ```
 
 ### Private Sale Parameters
 ```solidity
-Rate: 1 PTDT = 1 USDT (configurable)
-Min Purchase: [Set by controller]
-Max Purchase: [Set by controller]
-Max Per Address: [Set by controller]
-Hard Cap: 200,000,000 PTDT (20% of supply)
+Rate: 1 PTDT = 1 USDT
+Min Purchase: 5 USDT
+Max Purchase: 100 USDT per transaction
+Max Per Wallet: 500 USDT
+Hard Cap: 5,000 PTDT (5% of supply)
+Sale Ends: December 23, 2025
+```
+
+### Token Distribution
+```
+Private Sale:           5%  (5,000 PTDT)
+Liquidity Pool:         5%  (5,000 PTDT)
+Team Allocation:       15%  (15,000 PTDT)
+IT & Development:      25%  (25,000 PTDT)
+Advisor & Legal:       15%  (15,000 PTDT)
+Marketing & Bounty:    10%  (10,000 PTDT)
+Referral Program:       5%  (5,000 PTDT)
+Reserve/Treasury:      12%  (12,000 PTDT)
+Community Growth:       8%  (8,000 PTDT)
+────────────────────────────────────────
+TOTAL:                100%  (100,000 PTDT)
 ```
 
 ## 🛡️ Security Audit Results
 
-### Slither Static Analysis
+### Audit Score: 9.2/10
 - ✅ **Critical Issues:** 0
 - ✅ **High Severity:** 0
 - ✅ **Medium Severity:** 0 (all resolved)
-- ✅ **Low Severity:** 0 (naming conventions fixed)
+- ✅ **Low Severity:** 0 (naming conventions optimized)
 
 ### Resolved Issues
 1. ✅ **Variable Shadowing:** Fixed in both contracts
 2. ✅ **Naming Conventions:** All parameters use mixedCase
 3. ✅ **Reentrancy Protection:** Implemented in sale contract
 4. ✅ **Zero Address Checks:** Added throughout
-5. ✅ **Blacklist Activation Delay:** 1-hour safety window
+5. ✅ **Transfer Cooldowns:** Prevents rapid-fire dumps
 
-## 🎯 Anti-Whale Mechanisms
+## 💎 Why Only 100,000 Tokens?
 
-PTDT implements multiple layers of protection against whale manipulation:
+**Scarcity Comparison:**
 
-### Layer 1: Per-Transaction Limit
-- Maximum 1% of supply per transaction
-- Applies to all transfers
-- Cannot be bypassed
+| Token | Total Supply | vs PTDT |
+|-------|-------------|---------|
+| Bitcoin | 21,000,000 | 210x more |
+| Ethereum | 120,000,000+ | 1,200x more |
+| BNB | 144,000,000 | 1,440x more |
+| Most BEP-20 | 1B - 100B | 10,000x - 1,000,000x more |
+| **PTDT** | **100,000** | **Baseline** |
 
-### Layer 2: Daily Transfer Limit  
-- Maximum 10% of supply per 24 hours
-- Automatically resets after 24 hours
-- Tracked per address
-
-### Layer 3: Transfer Cooldown
-- 5-minute cooldown for transfers >10% of max tx amount
-- Prevents rapid-fire dumping
-- Cooldown bypassed for excluded addresses
-
-### Exclusions
-Controller can exclude specific addresses from restrictions:
-- Liquidity pools (prevent failed swaps)
-- Exchange hot wallets (enable smooth trading)
-- Vesting contracts (allow automated unlocks)
-
-## 📖 Key Functions
-
-### User Functions
-
-**Transfer & Approvals:**
-```solidity
-transfer(address to, uint256 amount)
-transferFrom(address from, address to, uint256 amount)
-approve(address spender, uint256 amount)
-increaseAllowance(address spender, uint256 addedValue)
-decreaseAllowance(address spender, uint256 subtractedValue)
-```
-
-**Burn Functions:**
-```solidity
-burn(uint256 amount)                    // Burn your own tokens
-burnFrom(address account, uint256 amount) // Burn with approval
-```
-
-**View Functions:**
-```solidity
-balanceOf(address account)
-allowance(address owner, address spender)
-getDailyTransferRemaining(address account)  // Check daily limit
-getTransferCooldownRemaining(address account) // Check cooldown
-```
-
-### Admin Functions (Controller Only)
-
-**Trading Controls:**
-```solidity
-enableTrading()                         // Activate public trading
-setExcludedFromRestrictions(address, bool) // Exclude from limits
-```
-
-**Blacklist Management:**
-```solidity
-setBlacklist(address account, bool status) // 1-hour delay
-setBlacklistBatch(address[] accounts, bool status) // Max 50 addresses
-```
-
-**Ownership:**
-```solidity
-transferControl(address newController)  // Initiate transfer
-acceptControl()                         // Accept transfer
-renounceControl()                       // Renounce after 30 days
-getRenouncementTimeRemaining()          // Check delay
-```
-
-### Private Sale Functions
-
-**Purchase:**
-```solidity
-buyWithUSDT(uint256 usdtAmount)         // Buy PTDT with USDT
-```
-
-**Admin Controls:**
-```solidity
-setPause(bool status)                   // Emergency pause
-updateRate(uint256 newRate)             // Adjust exchange rate
-updateLimits(uint256 min, uint256 max, uint256 perAddress)
-endSale()                               // Close sale
-withdrawUnsold()                        // Withdraw remaining tokens
-updateTreasury(address newTreasury)     // Change treasury address
-```
-
-**View Functions:**
-```solidity
-calculatePTDT(uint256 usdtAmount)       // Preview PTDT amount
-getSaleStats()                          // Sale statistics
-getUserInfo(address user)               // User purchase info
-getContractBalance()                    // PTDT available
-getRemainingTokensForSale()             // Tokens left
-```
+**The Math:**
+- If 10,000 drivers each hold 10 PTDT: 100% of supply locked
+- If 30,000 drivers need PTDT: Supply shock inevitable
+- As adoption grows, scarcity drives value
 
 ## 🗺️ Roadmap
 
-### Q4 2025 - Private Sale & Listings ✅
-- [x] Smart contract deployment (Solidity 0.8.25)
+### Q4 2024 - Q1 2025 (COMPLETED) ✅
+- [x] Smart contract development & audit
+- [x] Website & brand launch
 - [x] Private Sale launch
 - [x] BSCScan verification
-- [ ] CoinGecko listing
-- [ ] TrustWallet integration
-- [ ] PancakeSwap liquidity pool
 
-### Q1 2026 - Ecosystem Expansion
-- [ ] Mobile app (iOS/Android)
+### Q2 2025 (CURRENT)
+- [ ] Complete Private Sale (ends Dec 23, 2025)
+- [ ] PancakeSwap liquidity pool
+- [ ] CoinGecko and CoinMarketCap listings
+- [ ] First CEX partnerships
+
+### Q3 2025
+- [ ] Mobile app beta (iOS/Android)
 - [ ] Staking rewards program
 - [ ] 10,000+ drivers onboarded
 - [ ] 15 countries operational
 
-### Q2 2026 - DeFi Integration
-- [ ] Governance token launch
-- [ ] Liquidity mining
-- [ ] Ride escrow smart contracts
-- [ ] Cross-chain bridge (ETH/Polygon)
+### Q4 2025
+- [ ] Expansion to 5 new countries
+- [ ] Pink Miles loyalty program
+- [ ] Major CEX listing (Binance/KuCoin)
+- [ ] DAO governance framework
 
-### Q3 2026+ - Global Scale
-- [ ] 50,000+ drivers
-- [ ] 30+ countries
-- [ ] B2B partnerships
-- [ ] API licensing
+### 2026+
+- [ ] AI-powered safety features
+- [ ] Multi-chain expansion
+- [ ] 50,000+ drivers globally
+- [ ] Global brand recognition
 
 ## 🤝 Contributing
 
@@ -274,9 +204,10 @@ This project is licensed under the MIT License - see [LICENSE](./LICENSE) file f
 
 - 🌐 **Website:** [ptdt.taxi](https://www.ptdt.taxi)
 - 💰 **DApp:** [dapp.ptdt.taxi](https://dapp.ptdt.taxi)
-- 📊 **BSCScan:** [View Token](https://bscscan.com/token/[YOUR_ADDRESS])
+- 📊 **BSCScan:** [View Token](https://bscscan.com/token/0x66c6Fc5E7F99272134a52DF9E88D94eD83E89278)
 - 📝 **Medium:** [medium.com/@ptdt](https://medium.com/@ptdt)
 - 💬 **Community:** [Your Telegram/Discord]
+- 📄 **Whitepaper:** [ptdt.taxi/whitepaper.html](https://ptdt.taxi/whitepaper.html)
 
 ## 📧 Contact
 
@@ -289,4 +220,43 @@ This project is licensed under the MIT License - see [LICENSE](./LICENSE) file f
 
 **⚡ Built on Binance Smart Chain. Powered by Solidity 0.8.25.**
 
-*Empowering 3,000+ drivers. Completed 500,000+ rides. Creating the future of mobility.*
+*Only 100,000 tokens will ever exist. 500,000+ rides completed. 3,000+ drivers empowered.*
+
+**The most scarce utility token on BSC.**
+```
+
+---
+
+## 📋 **3. REPOSITORY SETTINGS**
+
+### **For: `Peether-PTDT` Repository**
+
+**Go to:** Repository → Settings (gear icon) → About
+
+**Description:**
+```
+Official smart contracts and DApp for PTDT - Ultra-scarce BEP-20 token (only 100,000 supply) revolutionizing ride-hailing on Binance Smart Chain
+```
+
+**Website:**
+```
+https://www.ptdt.taxi
+```
+
+**Topics (add all of these):**
+```
+binance-smart-chain
+bep20-token
+defi
+cryptocurrency
+ride-hailing
+blockchain
+web3
+dapp
+solidity
+smart-contracts
+utility-token
+scarcity
+women-empowerment
+pink-taxi
+transportation

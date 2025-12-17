@@ -2,13 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![BSC Network](https://img.shields.io/badge/Network-Binance%20Smart%20Chain-yellow)](https://bscscan.com/)
-[![Token Standard](https://img.shields.io/badge/Standard-BEP--20-blue)](https://academy.binance.com/en/glossary/bep-20)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.25-blue)](https://soliditylang.org/)
 
 > Revolutionizing ride-hailing with blockchain technology. 500,000+ rides. 3,000+ drivers. Real-world utility.
 
 ## 🌟 Overview
 
-Peether (PTDT) is a deflationary BEP-20 utility token built on Binance Smart Chain, designed to transform the economics of ride-hailing services. Unlike traditional platforms that charge 25-30% fees, PTDT operates on a sustainable 5% model while providing instant settlements and deflationary value appreciation.
+Peether (PTDT) is an ERC-20 utility token built on Binance Smart Chain, designed to transform the economics of ride-hailing services. Unlike traditional platforms that charge 25-30% fees, PTDT operates on a sustainable 5% model while providing instant settlements and transparent on-chain transactions.
 
 ### Key Statistics
 - 💼 **3,000+ Active Drivers** across 7 countries
@@ -19,45 +19,67 @@ Peether (PTDT) is a deflationary BEP-20 utility token built on Binance Smart Cha
 
 ## 🔥 Core Features
 
-### Deflationary Tokenomics
+### Fixed Supply Tokenomics
 - **Total Supply:** 1,000,000,000 PTDT (fixed, no minting)
-- **Burn Rate:** 1% per transaction permanently destroyed
-- **Result:** Increasing scarcity as adoption grows
+- **Burn Mechanism:** Optional manual burns (no automatic burn tax)
+- **Result:** Predictable supply with strategic burn options
 
 ### Anti-Whale Protection
-- **Private Sale Limit:** 1,000,000 PTDT per wallet (0.1% max)
+- **Max Transaction:** 1% of supply (10,000,000 PTDT)
+- **Daily Limit:** 10% of supply per address (100,000,000 PTDT)
+- **Transfer Cooldown:** 5 minutes for large transfers (>1,000,000 PTDT)
 - **Fair Distribution:** Prevents market manipulation
-- **Time-Locked:** Restrictions auto-remove post-Private Sale
 
-### Security Features
-- ✅ Slither security audit completed
-- ✅ Time-locked ownership renouncement (30 days)
-- ✅ No pausable functions (true decentralization)
-- ✅ Blacklist mechanism (90-day activation delay for compliance)
-- ✅ Fully verified on BSCScan
+### Advanced Security Features
+- ✅ **Reentrancy Protection:** Non-reentrant modifiers on critical functions
+- ✅ **Time-Locked Ownership:** 30-day renouncement delay after trading enabled
+- ✅ **No Pausable Transfers:** True decentralization (only sale contract pausable)
+- ✅ **Blacklist Mechanism:** 1-hour activation delay for compliance
+- ✅ **Two-Step Ownership Transfer:** Prevents accidental transfers
+- ✅ **Fully Verified on BSCScan**
 
-## 🏗️ Architecture
+## 🏗️ Contract Architecture
 
-### Smart Contracts
+### Token Contract (`Peether.sol`)
 
-**Token Contract:**
-- BEP-20 standard implementation
-- Deflationary burn mechanism
-- Anti-whale purchase limits
+**Core Functions:**
+- Standard ERC-20 implementation
+- Manual burn capability (`burn()` and `burnFrom()`)
+- Anti-whale limits (per-transaction and daily)
+- Transfer cooldown for large transfers
 - Blacklist functionality (compliance-ready)
+- Controlled trading activation
 
-**Private Sale Contract:**
+**Security Mechanisms:**
+```solidity
+// Anti-whale protection
+maxTxAmount = maxSupply / 100;          // 1% max per transaction
+dailyMaxTransfer = maxSupply / 10;      // 10% max per day
+TRANSFER_COOLDOWN = 5 minutes;          // Large transfer cooldown
+
+// Ownership controls
+RENOUNCEMENT_DELAY = 30 days;           // Time-lock before renouncement
+BLACKLIST_DELAY = 1 hours;              // Activation delay for blacklist
+```
+
+### Private Sale Contract (`PeetherPrivateSale.sol`)
+
+**Features:**
 - Two-step purchase process (USDT approval + token buy)
-- Anti-whale enforcement
-- Instant token distribution
-- Emergency pause capability (team-controlled, expires 30 days)
+- Configurable rate (default 1:1 USDT)
+- Per-address purchase limits
+- Hard cap enforcement
+- Emergency pause capability
+- Reentrancy protection
 
-### DApp Stack
-- **Frontend:** React + Vite + TypeScript
-- **Web3 Integration:** Wagmi + RainbowKit
-- **Styling:** Tailwind CSS
-- **Blockchain:** Binance Smart Chain (BSC)
-- **Payment Token:** USDT (BEP-20)
+**Purchase Flow:**
+```solidity
+1. User approves USDT spending
+2. User calls buyWithUSDT(amount)
+3. Contract transfers USDT to treasury
+4. Contract transfers PTDT to user
+5. Emits TokensPurchased event
+```
 
 ## 📋 Contract Addresses
 
@@ -67,77 +89,149 @@ Peether (PTDT) is a deflationary BEP-20 utility token built on Binance Smart Cha
 | Private Sale | `[YOUR_SALE_ADDRESS]` | [BSCScan ↗](https://bscscan.com/address/...) |
 | USDT (BEP-20) | `0x55d398326f99059fF775485246999027B3197955` | [BSCScan ↗](https://bscscan.com/token/0x55d398326f99059fF775485246999027B3197955) |
 
-## 🚀 Quick Start
+## 🚀 Technical Specifications
 
-### Prerequisites
-- Node.js v18+
-- MetaMask or Trust Wallet
-- BNB for gas fees (~$1)
-- USDT (BEP-20) for token purchase
-
-### Installation
-```bash
-# Clone repository
-git clone https://github.com/pinkpeether/Peether-PTDT.git
-cd Peether-PTDT
-
-# Install dependencies
-npm install
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your values
-
-# Run development server
-npm run dev
+### Token Parameters
+```solidity
+Name: "Peether"
+Symbol: "PTDT"
+Decimals: 18
+Max Supply: 1,000,000,000 PTDT
+Max Tx Amount: 10,000,000 PTDT (1%)
+Daily Max Transfer: 100,000,000 PTDT (10%)
+Transfer Cooldown: 5 minutes (for large transfers)
 ```
 
-### Deployment
-```bash
-# Build for production
-npm run build
-
-# Deploy smart contracts (Hardhat)
-npx hardhat run scripts/deploy.js --network bsc
-
-# Verify contracts on BSCScan
-npx hardhat verify --network bsc [CONTRACT_ADDRESS]
+### Private Sale Parameters
+```solidity
+Rate: 1 PTDT = 1 USDT (configurable)
+Min Purchase: [Set by controller]
+Max Purchase: [Set by controller]
+Max Per Address: [Set by controller]
+Hard Cap: 200,000,000 PTDT (20% of supply)
 ```
 
-## 📖 Documentation
+## 🛡️ Security Audit Results
 
-### For Users
-- [How to Buy PTDT](./docs/HOW_TO_BUY.md)
-- [Wallet Setup Guide](./docs/WALLET_SETUP.md)
-- [FAQ](./docs/FAQ.md)
+### Slither Static Analysis
+- ✅ **Critical Issues:** 0
+- ✅ **High Severity:** 0
+- ✅ **Medium Severity:** 0 (all resolved)
+- ✅ **Low Severity:** 0 (naming conventions fixed)
 
-### For Developers
-- [Smart Contract Documentation](./docs/CONTRACTS.md)
-- [DApp Integration Guide](./docs/INTEGRATION.md)
-- [API Reference](./docs/API.md)
+### Resolved Issues
+1. ✅ **Variable Shadowing:** Fixed in both contracts
+2. ✅ **Naming Conventions:** All parameters use mixedCase
+3. ✅ **Reentrancy Protection:** Implemented in sale contract
+4. ✅ **Zero Address Checks:** Added throughout
+5. ✅ **Blacklist Activation Delay:** 1-hour safety window
 
-### Tokenomics
-- [Economic Model](./docs/TOKENOMICS.md)
-- [Deflationary Mechanics](./docs/DEFLATION.md)
-- [Roadmap 2026-2030](./docs/ROADMAP.md)
+## 🎯 Anti-Whale Mechanisms
 
-## 🛡️ Security
+PTDT implements multiple layers of protection against whale manipulation:
 
-### Audits
-- ✅ **Slither Static Analysis** - All critical issues resolved
-- 📋 **Third-Party Audit** - Scheduled Q1 2026
-- 🔐 **Bug Bounty Program** - Coming Q2 2026
+### Layer 1: Per-Transaction Limit
+- Maximum 1% of supply per transaction
+- Applies to all transfers
+- Cannot be bypassed
 
-### Responsible Disclosure
-Found a security issue? Email: security@ptdt.taxi
+### Layer 2: Daily Transfer Limit  
+- Maximum 10% of supply per 24 hours
+- Automatically resets after 24 hours
+- Tracked per address
 
-**Do NOT open public issues for security vulnerabilities.**
+### Layer 3: Transfer Cooldown
+- 5-minute cooldown for transfers >10% of max tx amount
+- Prevents rapid-fire dumping
+- Cooldown bypassed for excluded addresses
+
+### Exclusions
+Controller can exclude specific addresses from restrictions:
+- Liquidity pools (prevent failed swaps)
+- Exchange hot wallets (enable smooth trading)
+- Vesting contracts (allow automated unlocks)
+
+## 📖 Key Functions
+
+### User Functions
+
+**Transfer & Approvals:**
+```solidity
+transfer(address to, uint256 amount)
+transferFrom(address from, address to, uint256 amount)
+approve(address spender, uint256 amount)
+increaseAllowance(address spender, uint256 addedValue)
+decreaseAllowance(address spender, uint256 subtractedValue)
+```
+
+**Burn Functions:**
+```solidity
+burn(uint256 amount)                    // Burn your own tokens
+burnFrom(address account, uint256 amount) // Burn with approval
+```
+
+**View Functions:**
+```solidity
+balanceOf(address account)
+allowance(address owner, address spender)
+getDailyTransferRemaining(address account)  // Check daily limit
+getTransferCooldownRemaining(address account) // Check cooldown
+```
+
+### Admin Functions (Controller Only)
+
+**Trading Controls:**
+```solidity
+enableTrading()                         // Activate public trading
+setExcludedFromRestrictions(address, bool) // Exclude from limits
+```
+
+**Blacklist Management:**
+```solidity
+setBlacklist(address account, bool status) // 1-hour delay
+setBlacklistBatch(address[] accounts, bool status) // Max 50 addresses
+```
+
+**Ownership:**
+```solidity
+transferControl(address newController)  // Initiate transfer
+acceptControl()                         // Accept transfer
+renounceControl()                       // Renounce after 30 days
+getRenouncementTimeRemaining()          // Check delay
+```
+
+### Private Sale Functions
+
+**Purchase:**
+```solidity
+buyWithUSDT(uint256 usdtAmount)         // Buy PTDT with USDT
+```
+
+**Admin Controls:**
+```solidity
+setPause(bool status)                   // Emergency pause
+updateRate(uint256 newRate)             // Adjust exchange rate
+updateLimits(uint256 min, uint256 max, uint256 perAddress)
+endSale()                               // Close sale
+withdrawUnsold()                        // Withdraw remaining tokens
+updateTreasury(address newTreasury)     // Change treasury address
+```
+
+**View Functions:**
+```solidity
+calculatePTDT(uint256 usdtAmount)       // Preview PTDT amount
+getSaleStats()                          // Sale statistics
+getUserInfo(address user)               // User purchase info
+getContractBalance()                    // PTDT available
+getRemainingTokensForSale()             // Tokens left
+```
 
 ## 🗺️ Roadmap
 
-### Q4 2025 - Private Sale & Listings
-- [x] Smart contract deployment
+### Q4 2025 - Private Sale & Listings ✅
+- [x] Smart contract deployment (Solidity 0.8.25)
 - [x] Private Sale launch
+- [x] BSCScan verification
 - [ ] CoinGecko listing
 - [ ] TrustWallet integration
 - [ ] PancakeSwap liquidity pool
@@ -183,7 +277,6 @@ This project is licensed under the MIT License - see [LICENSE](./LICENSE) file f
 - 📊 **BSCScan:** [View Token](https://bscscan.com/token/[YOUR_ADDRESS])
 - 📝 **Medium:** [medium.com/@ptdt](https://medium.com/@ptdt)
 - 💬 **Community:** [Your Telegram/Discord]
-- 🐦 **Twitter:** [Your Twitter if available]
 
 ## 📧 Contact
 
@@ -194,80 +287,6 @@ This project is licensed under the MIT License - see [LICENSE](./LICENSE) file f
 
 ---
 
-**⚡ Built with passion for decentralization. Powered by Binance Smart Chain.**
+**⚡ Built on Binance Smart Chain. Powered by Solidity 0.8.25.**
 
 *Empowering 3,000+ drivers. Completed 500,000+ rides. Creating the future of mobility.*
-```
-
----
-
-### **Issue #3: Missing Essential Files**
-
-**Add these files to make the repo complete:**
-
-#### **1. LICENSE file**
-Create `LICENSE` file with MIT License:
-```
-MIT License
-
-Copyright (c) 2025 Peether PTDT
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-#### **2. CONTRIBUTING.md**
-Basic contribution guidelines
-
-#### **3. docs/ folder**
-Create `/docs` folder with:
-- `HOW_TO_BUY.md`
-- `TOKENOMICS.md`
-- `ROADMAP.md`
-- `FAQ.md`
-
-#### **4. .gitignore**
-```
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# Testing
-coverage/
-
-# Production
-build/
-dist/
-
-# Misc
-.DS_Store
-.env
-.env.local
-.env.production
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*

